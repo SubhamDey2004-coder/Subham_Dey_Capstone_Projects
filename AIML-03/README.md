@@ -78,7 +78,7 @@ The ranking model also achieved the following results on a separate classificati
 ## Project Structure
 
 ```text
-Nexvia_Recommendation_Engine_Delivery/
+AIML-03/
 ├── src/
 │   ├── data/
 │   ├── features/
@@ -104,31 +104,32 @@ Nexvia_Recommendation_Engine_Delivery/
 └── README.md
 ```
 
-The directory listing above highlights the important runtime files. Other source files and subdirectories may also be present in `src/`.
+This tree highlights the important runtime files. Additional source files and subdirectories may also be present.
 
 ## Requirements
 
 - Python 3.11
 - Sufficient disk space for the Python environment and model dependencies
-- The trained model files and processed data included in the delivery package
+- The trained model files and processed data included in this repository
 
-The delivery package is intended to run the existing recommendation API. **Downloading the MovieLens dataset and retraining the models are not required for normal API execution.**
+This delivery is intended to run the existing recommendation API. **Downloading the MovieLens dataset and retraining the models are not required for normal API execution.**
 
-Keep the directory structure and filenames unchanged because the serving code loads models and data using paths relative to the project root.
+Keep the directory structure and filenames unchanged because the serving code loads models and data using paths relative to this project directory.
 
 ## Setup
 
-Run the following commands in PowerShell from the project root.
+**Run the following commands from the repository root, then continue running the commands in this README from inside `AIML-03/`.**
 
-### 1. Create a virtual environment
+### 1. Enter the project directory
+
+```powershell
+cd AIML-03
+```
+
+### 2. Create and activate a virtual environment
 
 ```powershell
 python -m venv .venv
-```
-
-### 2. Activate the environment
-
-```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
@@ -145,7 +146,7 @@ Installation time and disk usage depend on the machine and available package whe
 
 ## Run the API
 
-From the project root, start the FastAPI server:
+From inside the `AIML-03/` directory, start the FastAPI server:
 
 ```powershell
 python -m uvicorn src.serving.api:app --host 127.0.0.1 --port 8000
@@ -191,7 +192,7 @@ http://127.0.0.1:8000/
 
 ### Example request
 
-Using PowerShell:
+Using PowerShell while the API is running:
 
 ```powershell
 Invoke-RestMethod "http://127.0.0.1:8000/recommend/1?top_k=10"
@@ -224,9 +225,7 @@ The movie title and score above are illustrative. Actual recommendations depend 
 
 ## Current Project Status
 
-The main retrieval, ranking, evaluation, and API-serving components have been implemented. The recommendation pipeline has been tested locally, including API startup, health checks, recommendation generation, unknown-user handling, and invalid-parameter validation.
-
-The delivery copy has also been tested with the included model artifacts and processed data.
+The retrieval, ranking, evaluation, and API-serving components have been implemented. Local validation included API startup, health checks, recommendation generation, unknown-user handling, and invalid-parameter validation. A fresh-clone setup and API smoke test also succeeded with the included model artifacts and processed data.
 
 Further improvements could include broader held-out test evaluation, automated test coverage, reproducibility checks, and additional production-readiness work.
 
