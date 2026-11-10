@@ -1,10 +1,21 @@
+import sys
+from pathlib import Path
 
-import numpy as np
 import cv2
-from tools.evaluate_ufld_video import draw_lanes
-from tools.evaluate_ufld_video import remove_spikes
-from tools.evaluate_ufld_video import align_lane, ALIGNED_POINT_COUNT
+import numpy as np
 
+# Make the AIML-04 project root importable from any working directory.
+ROOT = Path(__file__).resolve().parents[1]
+
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from tools.evaluate_ufld_video import (
+    ALIGNED_POINT_COUNT,
+    align_lane,
+    draw_lanes,
+    remove_spikes,
+)
 def test_remove_spikes_filters_isolated_outlier():
     points = np.array(
         [

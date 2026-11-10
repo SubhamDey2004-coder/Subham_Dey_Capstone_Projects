@@ -13,7 +13,7 @@ REPO = ROOT / "external_models" / "Ultra-Fast-Lane-Detection-v2"
 sys.path.insert(0, str(ROOT))
 sys.path.insert(1, str(REPO))
 
-from model.model_culane import parsingNet
+
 
 
 # Paths
@@ -40,6 +40,15 @@ LANE_COLORS = [
 
 def build_model():
     """Load the pretrained CULane model on CPU."""
+    try:
+        from model.model_culane import parsingNet
+    except ModuleNotFoundError as exc:
+        raise ModuleNotFoundError(
+            "Ultra-Fast-Lane-Detection-v2 is required for pretrained "
+            "lane inference. Clone it into "
+            "external_models/Ultra-Fast-Lane-Detection-v2/."
+        ) from exc
+
     model = parsingNet(
         pretrained=False,
         backbone="18",
