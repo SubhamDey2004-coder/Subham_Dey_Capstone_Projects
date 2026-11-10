@@ -12,7 +12,7 @@ A computer vision project combining vehicle detection, multi-object tracking, an
 
 ## Tech Stack
 
-- Python
+- Python 3.11
 - PyTorch and TorchVision
 - OpenCV
 - Ultralytics YOLO
@@ -25,7 +25,7 @@ A computer vision project combining vehicle detection, multi-object tracking, an
 AIML-04/
 ├── artifacts/models/       # Model weights downloaded separately
 ├── configs/                # Detection and model configuration
-├── data/samples/           # Sample road images and videos
+├── data/samples/           # Sample road images
 ├── docs/                   # Project documentation
 ├── experiments/             # Experimental implementations
 ├── external_models/        # External lane-detection repository, cloned separately
@@ -46,12 +46,19 @@ AIML-04/
 
 ## Setup
 
-Run the following commands from the repository root:
+The following commands assume you start in the repository root:
+
+### 1. Enter the project directory and create a virtual environment
 
 ```powershell
 cd AIML-04
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
+```
+
+### 2. Install dependencies
+
+```powershell
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
@@ -70,7 +77,7 @@ Model weights are excluded from Git to keep the repository manageable. Review th
 
 ### YOLO11n: object detection and tracking
 
-From the `AIML-04` directory, run:
+From inside the `AIML-04/` directory, run:
 
 ```powershell
 python tools/download_yolo_model.py
@@ -86,13 +93,14 @@ The `culane_res18.pth` checkpoint is approximately 787 MB and is excluded from G
 artifacts/models/culane_res18.pth
 ```
 
-The external lane-detection repository is also required for the pretrained lane-detection pipeline.
+The external lane-detection repository and a compatible checkpoint are required to run the pretrained Ultra-Fast Lane Detection v2 pipeline.
 
 ## Obtain the External Lane-Detection Repository
 
-From the `AIML-04` directory, clone the official Ultra-Fast Lane Detection v2 repository:
+Run these commands from inside `AIML-04/`. The first command creates the parent directory required by `git clone`. Run the clone command only once; if the external repository is already present, skip it.
 
 ```powershell
+New-Item -ItemType Directory -Force external_models | Out-Null
 git clone https://github.com/cfzd/Ultra-Fast-Lane-Detection-v2 external_models/Ultra-Fast-Lane-Detection-v2
 ```
 
@@ -100,7 +108,7 @@ Follow the external repository's setup instructions and verify that its model co
 
 ## Run the Integrated Pipeline
 
-From the `AIML-04` directory, activate the virtual environment and run:
+From inside the `AIML-04/` directory, activate the virtual environment and run:
 
 ```powershell
 python tools/integrated_perception.py
@@ -112,17 +120,17 @@ The script processes its configured input video and saves the annotated output u
 outputs/perception/integrated_traffic.mp4
 ```
 
-Check the paths in the script if your local video or model locations differ.
+Check the input-video and model paths in the script if your local files or locations differ. A suitable input video may need to be supplied separately.
 
 ## Run Tests
 
-Download the YOLO weights first, then run the automated test suite from the `AIML-04` directory:
+Download the YOLO weights first, then run the automated test suite from inside `AIML-04/`:
 
 ```powershell
 python -m pytest -v
 ```
 
-The tests cover lane-processing functions and a ByteTrack tracking smoke test. The pretrained Ultra-Fast Lane Detection v2 pipeline also requires its external code repository and compatible lane checkpoint.
+The available tests cover lane-processing functions and a ByteTrack tracking smoke test. The pretrained Ultra-Fast Lane Detection v2 pipeline also requires its external code repository and compatible lane checkpoint. The test suite passing does not, by itself, validate the complete pretrained lane pipeline.
 
 ## Performance
 
