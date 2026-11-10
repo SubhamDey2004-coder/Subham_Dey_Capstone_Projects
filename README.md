@@ -1,20 +1,33 @@
 # Subham Dey | Nexvia Technologies Capstone Projects
 
-This repository contains both capstone projects prepared for evaluation by Nexvia Technologies.
+This repository contains two capstone projects prepared for evaluation by Nexvia Technologies.
 
 ## Projects
 
 ### AIML-03: Large-Scale Personalized Recommendation Engine
-A personalized movie recommendation system built on the MovieLens 25M dataset. It combines learned user/movie embeddings, FAISS-based candidate retrieval, seen-movie filtering, a neural embedding ranker, and a FastAPI serving layer.
 
-**Project directory:** `AIML-03/`
+A personalized movie recommendation system built with TensorFlow/Keras, FAISS, and FastAPI using MovieLens 25M-derived artifacts.
+
+- **Project directory:** `AIML-03/`
+- **Setup and run guide:** [AIML-03 README](AIML-03/README.md)
 
 ### AIML-04: Autonomous Driving Perception Stack
-An autonomous-driving perception project integrating visual perception components, including object detection, tracking, and lane detection.
 
-**Project directory:** `AIML-04/`
+A computer vision pipeline combining object detection, multi-object tracking, and lane detection.
 
-## Repository structure
+- **Project directory:** `AIML-04/`
+- **Setup and run guide:** [AIML-04 README](AIML-04/README.md)
+
+## Start Here
+
+1. Open the README for the project you want to evaluate.
+2. Follow its setup instructions and run commands in order.
+3. Check its model-weight section before running inference. Some model files are intentionally downloaded separately because of their size or licensing terms.
+4. Follow its test instructions to run the available automated checks.
+
+**Important:** Commands and relative paths in each project-specific README assume that you first change into that project's directory (`AIML-03/` or `AIML-04/`) unless a command explicitly says otherwise.
+
+## Repository Structure
 
 ```text
 Subham_Dey_Capstone_Projects/
@@ -25,19 +38,14 @@ Subham_Dey_Capstone_Projects/
 │   ├── src/
 │   ├── artifacts/
 │   ├── data/
-│   ├── tests/
 │   └── ...
 └── AIML-04/
     ├── README.md
     ├── requirements.txt
+    ├── requirements-dev.txt
     ├── src/
     ├── tests/
     └── ...
 ```
 
-The exact contents may vary by project. Only include files required to understand, run, test, or evaluate each project. Do not commit virtual environments, caches, secrets, credentials, or unrelated local files.
-
-## Notes
-- Project-specific setup, run instructions, architecture, and evaluation details should be documented in each subfolder's README.
-- Trained model artifacts required for inference should be included when their size and licensing permit.
-- Dataset instructions should explain how to obtain or reproduce datasets when the full dataset is too large to include.
+The project-specific READMEs document setup, runtime requirements, model artifacts, usage, and known limitations. Do not commit virtual environments, caches, credentials, or unrelated local files.
