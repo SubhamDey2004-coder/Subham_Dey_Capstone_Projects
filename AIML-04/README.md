@@ -1,4 +1,4 @@
-﻿# Autonomous Driving Perception Stack
+# Autonomous Driving Perception Stack
 
 A computer vision project combining vehicle detection, multi-object tracking, and lane detection into a unified video-processing pipeline.
 
@@ -22,75 +22,91 @@ A computer vision project combining vehicle detection, multi-object tracking, an
 ## Project Structure
 
 ```text
-autonomous-driving-perception-stack/
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ artifacts/models/       # Model weights (not tracked by Git)
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ configs/                # Configuration files
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ data/samples/           # Sample videos and images
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ docs/                   # Project documentation
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ experiments/            # Experimental and previous implementations
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ external_models/        # External lane-detection repository
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ src/
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ detection/           # Object detection
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ lanes/               # Lane detection
-Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ tracking/            # Object tracking
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ tests/                   # Automated tests
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ tools/
-Ã¢â€â€š   Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ integrated_perception.py
-Ã¢â€â€š   Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ evaluate_ufld_video.py
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ pytest.ini
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ requirements.txt
-Ã¢â€Å“Ã¢â€â‚¬Ã¢â€â‚¬ requirements-dev.txt
-Ã¢â€â€Ã¢â€â‚¬Ã¢â€â‚¬ README.md
+AIML-04/
+├── artifacts/models/       # Model weights downloaded separately
+├── configs/                # Detection and model configuration
+├── data/samples/           # Sample road images and videos
+├── docs/                   # Project documentation
+├── experiments/             # Experimental implementations
+├── external_models/        # External lane-detection repository, cloned separately
+├── src/
+│   ├── detection/           # Object detection
+│   ├── lanes/               # Lane detection
+│   └── tracking/            # Object tracking
+├── tests/                  # Automated tests
+├── tools/
+│   ├── download_yolo_model.py
+│   ├── integrated_perception.py
+│   └── evaluate_ufld_video.py
+├── pytest.ini
+├── requirements.txt
+├── requirements-dev.txt
+└── README.md
 ```
 
 ## Setup
 
-### 1. Create a virtual environment
+Run the following commands from the repository root:
 
 ```powershell
+cd AIML-04
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-```
-
-### 2. Install dependencies
-
-```powershell
+python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-For development and testing:
+For development and testing, install the additional dependencies:
 
 ```powershell
 python -m pip install -r requirements-dev.txt
 ```
 
-PyTorch installation may require a platform-specific adjustment. Choose a compatible build for your operating system and hardware.
+Python 3.11 was used to validate the pinned dependencies. PyTorch installation may require a platform-specific adjustment. Choose a compatible build for your operating system and hardware if the pinned build does not support your setup.
 
-### 3. Obtain model weights
+## Obtain Model Weights
 
-Model weight files are intentionally excluded from this repository.
+Model weights are excluded from Git to keep the repository manageable. Review the applicable license terms before using or redistributing model files.
 
-- `yolo11n.pt` is required for object detection and tracking. Obtain it from the [official Ultralytics project](https://github.com/ultralytics/ultralytics) and place it at `artifacts/models/yolo11n.pt`. Review the applicable license terms before use or redistribution.
-- `culane_res18.pth` is required for lane detection. Obtain a compatible CULane ResNet-18 checkpoint from the [official Ultra-Fast-Lane-Detection-v2 repository](https://github.com/cfzd/Ultra-Fast-Lane-Detection-v2) and place it at `artifacts/models/culane_res18.pth`. The development checkpoint is approximately 787 MB and is excluded from Git.
-### 4. Obtain the external lane-detection repository
+### YOLO11n: object detection and tracking
 
-Clone the official Ultra-Fast Lane Detection v2 repository into:
+From the `AIML-04` directory, run:
 
-```text
-external_models/Ultra-Fast-Lane-Detection-v2/
+```powershell
+python tools/download_yolo_model.py
 ```
 
-Follow its setup instructions and verify that its model configuration and checkpoint are compatible with this project.
+The script downloads `yolo11n.pt` into `artifacts/models/` on the first run. It skips the download if the file already exists. An internet connection is required for the initial download.
+
+### CULane ResNet-18: lane detection
+
+The `culane_res18.pth` checkpoint is approximately 787 MB and is excluded from Git. Obtain a compatible checkpoint from a permitted source, review its license, and place it at:
+
+```text
+artifacts/models/culane_res18.pth
+```
+
+The external lane-detection repository is also required for the pretrained lane-detection pipeline.
+
+## Obtain the External Lane-Detection Repository
+
+From the `AIML-04` directory, clone the official Ultra-Fast Lane Detection v2 repository:
+
+```powershell
+git clone https://github.com/cfzd/Ultra-Fast-Lane-Detection-v2 external_models/Ultra-Fast-Lane-Detection-v2
+```
+
+Follow the external repository's setup instructions and verify that its model configuration and checkpoint are compatible with this project.
 
 ## Run the Integrated Pipeline
 
-From the project root, activate the virtual environment and run:
+From the `AIML-04` directory, activate the virtual environment and run:
 
 ```powershell
 python tools/integrated_perception.py
 ```
 
-The script processes the configured input video and saves the annotated output under:
+The script processes its configured input video and saves the annotated output under:
 
 ```text
 outputs/perception/integrated_traffic.mp4
@@ -100,17 +116,17 @@ Check the paths in the script if your local video or model locations differ.
 
 ## Run Tests
 
-Run the automated test suite from the project root:
+Download the YOLO weights first, then run the automated test suite from the `AIML-04` directory:
 
 ```powershell
 python -m pytest -v
 ```
 
-The current test suite covers lane-processing functions and ByteTrack object tracking.
+The tests cover lane-processing functions and a ByteTrack tracking smoke test. The pretrained Ultra-Fast Lane Detection v2 pipeline also requires its external code repository and compatible lane checkpoint.
 
 ## Performance
 
-The integrated pipeline was benchmarked on a CPU-only environment using a 1,260-frame traffic video at 1280 Ã— 720 resolution.
+The integrated pipeline was benchmarked in a CPU-only environment using a 1,260-frame traffic video at 1280 × 720 resolution.
 
 | Metric | Result |
 |---|---:|
@@ -131,7 +147,7 @@ The integrated pipeline was benchmarked on a CPU-only environment using a 1,260-
 | Annotation and drawing | 4.19 seconds |
 | Video writing | 16.23 seconds |
 
-The lane inference sampling interval was increased from every 5 frames to every 8 frames, reducing the number of lane inference operations while retaining vehicle detection and tracking on every frame.
+The lane inference interval was increased from every 5 frames to every 8 frames, reducing lane inference operations while retaining vehicle detection and tracking on every frame.
 
 In the measured baseline, processing time decreased from 237.19 seconds to 181.00 seconds, and effective processing speed improved from 5.31 FPS to 6.96 FPS, an improvement of approximately 31.1%.
 
